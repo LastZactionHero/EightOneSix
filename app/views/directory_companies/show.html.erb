@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @directory_company.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @directory_company.description %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%= @directory_company.address %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @directory_company.city %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @directory_company.state %>
+</p>
+
+<p>
+  <b>Zip:</b>
+  <%= @directory_company.zip %>
+</p>
+
+<p>
+  <b>Phone:</b>
+  <%= @directory_company.phone %>
+</p>
+
+<p>
+  <b>Maincontact:</b>
+  <%= @directory_company.maincontact %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%= @directory_company.url %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @directory_company.notes %>
+</p>
+
+
+<%= link_to 'Edit', edit_directory_company_path(@directory_company) %> |
+<%= link_to 'Back', directory_companies_path %>
