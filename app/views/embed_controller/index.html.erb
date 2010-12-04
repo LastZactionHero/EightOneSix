@@ -1,0 +1,112 @@
+<script type="text/javascript">
+	
+	function handleListMouseOver
+		(
+		inState,
+		inIdx
+		)
+	{
+		if( inIdx == sPrevListIdx )
+			return;
+			
+		var titlebar = document.getElementById( "div_list_title_" + inIdx );
+		if( titlebar )
+		{
+			var color = ( inState ) ? "#CCCCFF" : "#FFFFFF";
+			titlebar.style.backgroundColor = color;
+		}
+	}
+
+	var sPrevListIdx = -1;
+	function handleListClick
+		(
+		inIdx
+		)
+	{
+		// Collapse Previous List Entry
+		var prevContent = document.getElementById( "div_list_content_" + sPrevListIdx );
+		if( prevContent )
+		{
+			prevContent.style.height = "0px";
+			prevContent.style.border = "0px";
+		}
+
+		// Unhighlight Previous List Title Bar
+		var titlebar = document.getElementById( "div_list_title_" + sPrevListIdx );
+		if( titlebar )
+		{
+			titlebar.style.backgroundColor = "#FFFFFF";
+		}
+						
+		// Expand List Entry	
+		var content = document.getElementById( "div_list_content_" + inIdx );
+		if( content )
+		{
+			content.style.height = "150px";
+			content.style.border = "1px dashed black";
+		}
+		
+		// Highlight List Title Bar
+		var titlebar = document.getElementById( "div_list_title_" + inIdx );
+		if( titlebar )
+		{
+			titlebar.style.backgroundColor = "#AAAAAA";
+		}
+		
+		sPrevListIdx = inIdx;	
+	}
+	
+	function updateFromList
+		(
+		inId
+		)
+	{
+		handleListClick( inId );
+		
+		var frame = window.frames['frame_map'];
+		if( frame )
+		{
+			frame.selectFromList( inId );
+		}			
+	}
+	
+	function updateFromMap
+		(
+		inId
+		)
+	{
+		handleListClick( inId );
+	}
+</script>
+
+<div style="position:relative; top:5px; left:5px; width:720px; height:400px; background-color:#FFFFFF;">
+</div>
+<div style="position:relative; top:-400px; left:0px; width:720px; height:400px; background-color:black;">
+	<div style="position:relative; top:0px; left:20px; width:480px; height:20px; color:white; font-size:12px; font-family:Palatino, Times;">
+		<strong>eightonesix:</strong> kansas city innovation directory
+	</div>
+	
+	<div style="position:relative; top:0px; left:20px; width:480px; height:360px; background-color:white;">
+		<iframe name="frame_map" id="frame_map" src="map_controller" width="480" height="360" marginwidth="0" marginheight="0" frameborder="no" scrolling="no"></iframe>
+	</div>
+	
+	<div style="position:relative; top:-360px; left:520px; width:180px; height:360px; background-color:white; overflow-x: hidden; overflow-y: scroll;">
+		<% @companies.each do |company| %>
+			<div id="div_list_title_<%= company[:id] %>" style="height:20px; background-color:#FFFFFF; overflow:hidden;" onMouseOver="javascript:handleListMouseOver( true, <%= company[:id] %> )" onMouseOut="javascript:handleListMouseOver( false, <%= company[:id] %> )" onClick="javascript:updateFromList( <%= company[:id] %> )">
+				<span style="color:black; font-size:12px; font-family:Palatino, Times;">-<%= "#{company[:name]}" %></span><br>
+			</div>
+			<div id="div_list_content_<%= company[:id] %>" style="height:0px; background-color:#FFFFFF; overflow:hidden; border: 0px solid black;">
+				<span style="color:black; font-size:12px; font-family:Palatino, Times;">
+					<table>
+						<tr><td style="color:black; font-size:12px; font-family:Palatino, Times;"><a href="<%= company[:url] %>"><%= company[:url] %></a></td></tr>
+						<tr><td style="color:black; font-size:12px; font-family:Palatino, Times;"><%= company[:description] %></td></tr>
+						<tr><td style="color:black; font-size:12px; font-family:Palatino, Times;"><%= company[:address] %></td></tr>
+						<tr><td style="color:black; font-size:12px; font-family:Palatino, Times;"><%= company[:city] %>, <%= company[:state] %></td></tr>
+					</table>
+					
+				</span><br>
+			</div>
+		<% end %>
+	</div>
+	
+</div>

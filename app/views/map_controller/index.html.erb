@@ -1,0 +1,50 @@
+<title>Map View</title>
+
+<style type="text/css">
+  html { height: 100% }
+  body { height: 100%; margin: 0px; padding: 0px }
+  #map_canvas { height: 100% }
+</style>
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<!-- <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAwZaZfpUAHlq4xt-XBkqvAhQ5GTg0kFOryls_NL00SxX-k8D0MxRMGwFzBhuximflGZHYsvGwksRc5w" type="text/javascript"></script> -->
+
+<script type="text/javascript" src="javascripts/map_controller.js"></script>
+<script type="text/javascript">
+
+  	var sMainMap = null;
+  	var sInfoWindow = null;
+  	
+	/**
+	 * Initialize Map
+	 * Initialize map with companies from database
+	 */
+	function initialize() 
+	{
+		// Center map around Kansas City
+    	var latlng = new google.maps.LatLng( 39.08, -94.56 );
+    	var myOptions = {
+      		zoom: 10,
+      		center: latlng,
+      		mapTypeId: google.maps.MapTypeId.ROADMAP,
+      		mapTypeControl: false,
+      		streetViewControl: false
+    		};
+    		
+    	// Create map
+    	sMainMap = new google.maps.Map( document.getElementById("map_canvas"), myOptions );
+        sInfoWindow = new google.maps.InfoWindow();
+        
+    	<% @companies.each do |company| %>
+    		mapcontroller.add_address_to_map( sMainMap, sInfoWindow, <%= company[:id] %>, "<%= "#{company[:name]}" %>", "<%= "#{company[:address]}" %>", "<%= "#{company[:city]}" %>", "<%= "#{company[:state]}" %>" );    	
+    	<% end %>
+  	}
+  		
+</script>
+
+
+ <div id="map_canvas" style="width:100%; height:100%"></div>
+
+ <script type="text/javascript">
+	initialize();
+ </script>

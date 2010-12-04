@@ -1,4 +1,8 @@
 Eightonesix::Application.routes.draw do
+  
+  match 'map_controller' => 'map_controller#index'
+  match 'embed' => 'embed_controller#index'
+  
   resources :directory_companies
 
   # The priority is based upon order of creation:
