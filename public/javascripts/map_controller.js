@@ -96,9 +96,9 @@ function updateList
 	inId		
 	)
 {
-	if( parent.updateFromMap )
+	if( parent.handleSelectionFromMap )
 	{
-		parent.updateFromMap( inId );
+		parent.handleSelectionFromMap( inId );
 	}
 }
 
