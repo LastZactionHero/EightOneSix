@@ -124,15 +124,16 @@
 	<!-- Loop through all data points and add to list -->
 	<div style="position:relative; top:-345px; left:500px; width:205px; height:360px; background-color:white; overflow-x: hidden; overflow-y: scroll;">
 	
+		<% companyIdx = 0 %>
 		<% @companies.each do |company| %>
 		
 			<!-- List Title Bar -->
-			<div id="div_list_title_<%= company[:id] %>" style="height:20px; background-color:#FFFFFF; overflow:hidden;" onMouseOver="javascript:handleListMouseOver( true, <%= company[:id] %> )" onMouseOut="javascript:handleListMouseOver( false, <%= company[:id] %> )" onClick="javascript:handleListClick( <%= company[:id] %> )">
+			<div id="div_list_title_<%= companyIdx %>" style="height:20px; background-color:#FFFFFF; overflow:hidden;" onMouseOver="javascript:handleListMouseOver( true, <%= companyIdx %> )" onMouseOut="javascript:handleListMouseOver( false, <%= companyIdx %> )" onClick="javascript:handleListClick( <%= companyIdx %> )">
 				<span style="color:black; font-size:12px; font-family:Palatino, Times;">-<%= "#{company[:name]}" %></span><br>
 			</div>
 			
 			<!-- List Content Box (hidden) -->
-			<div id="div_list_content_<%= company[:id] %>" style="height:0px; background-color:#FFFFFF; overflow:hidden; border: 0px solid black;">
+			<div id="div_list_content_<%= companyIdx %>" style="height:0px; background-color:#FFFFFF; overflow:hidden; border: 0px solid black;">
 				<span style="color:black; font-size:12px; font-family:Palatino, Times;">
 					<table>
 						<tr><td style="color:black; font-size:12px; font-family:Palatino, Times;"><a href="<%= company[:url] %>"><%= company[:url] %></a></td></tr>
@@ -143,6 +144,7 @@
 				</span><br>
 			</div>
 			
+			<% companyIdx += 1 %>
 		<% end %>
 		
 	</div>

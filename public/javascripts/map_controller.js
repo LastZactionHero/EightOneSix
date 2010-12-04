@@ -111,7 +111,7 @@ function selectFromList
 	inId
 	)
 {
-	inId = inId - 1;
+	inId = inId;
 	if( inId >= 0 && inId < sMarkerList.length )
 	{	
 		google.maps.event.trigger( sMarkerList[inId], "click" );

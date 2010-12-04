@@ -35,8 +35,10 @@
     	sMainMap = new google.maps.Map( document.getElementById("map_canvas"), myOptions );
         sInfoWindow = new google.maps.InfoWindow();
         
+        <% companyIdx = 0 %>
     	<% @companies.each do |company| %>
-    		mapcontroller.add_address_to_map( sMainMap, sInfoWindow, <%= company[:id] %>, "<%= "#{company[:name]}" %>", "<%= "#{company[:address]}" %>", "<%= "#{company[:city]}" %>", "<%= "#{company[:state]}" %>" );    	
+    		mapcontroller.add_address_to_map( sMainMap, sInfoWindow, <%= companyIdx %>, "<%= "#{company[:name]}" %>", "<%= "#{company[:address]}" %>", "<%= "#{company[:city]}" %>", "<%= "#{company[:state]}" %>" );
+    		<% companyIdx += 1 %>    	
     	<% end %>
   	}
   		
