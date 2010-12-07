@@ -2,6 +2,7 @@
 	
 	// Globals
 	var sPrevListIdx = -1;
+	var sCrntListIdx = -1;
 	
 	
 	/**
@@ -17,7 +18,7 @@
 		)
 	{
 		// Make sure it is not the current item
-		if( inIdx == sPrevListIdx )
+		if( inIdx == sCrntListIdx )
 			return;
 			
 		var titlebar = document.getElementById( "div_list_title_" + inIdx );
@@ -38,38 +39,107 @@
 		inIdx
 		)
 	{
-		// Collapse Previous List Entry
-		var prevContent = document.getElementById( "div_list_content_" + sPrevListIdx );
-		if( prevContent )
-		{
-			prevContent.style.height = "0px";
-			prevContent.style.border = "0px";
-		}
+		// Ignore request if currently animating
+		if( sIsAnimating )
+			return;
 
+		// Setup new list values
+		sPrevListIdx = sCrntListIdx;
+		sCrntListIdx = inIdx;
+		
 		// Unhighlight Previous List Title Bar
 		var titlebar = document.getElementById( "div_list_title_" + sPrevListIdx );
 		if( titlebar )
 		{
 			titlebar.style.backgroundColor = "#FFFFFF";
 		}
-						
-		// Expand List Entry	
-		var content = document.getElementById( "div_list_content_" + inIdx );
-		if( content )
-		{
-			content.style.height = "150px";
-			content.style.border = "1px dashed black";
-		}
 		
 		// Highlight List Title Bar
-		var titlebar = document.getElementById( "div_list_title_" + inIdx );
+		var titlebar = document.getElementById( "div_list_title_" + sCrntListIdx );
 		if( titlebar )
 		{
 			titlebar.style.backgroundColor = "#FF8700";
 		}
 		
-		sPrevListIdx = inIdx;	
+		// Animate expand/contacting change
+		animate_detail_expand();
+
 	}
+	
+	
+	// Animation Constants
+	var sMinHeight = 0;
+	var sMaxHeight = 150;
+	var sDeltaHeight = 10;
+	var sTimeout = 10;
+	var sCrntExpandHeight = sMinHeight;
+	var sPrevContractHeight = sMaxHeight;
+	var sIsAnimating = false;
+	
+	/**
+	 * Animate Expanding/Contracting Details Bars
+	 */
+	function animate_detail_expand()
+	{		
+		// Set animation state
+		sIsAnimating = true;
+		
+		// Expand New List Entry	
+		var contentExpand = document.getElementById( "div_list_content_" + sCrntListIdx );
+		if( contentExpand )
+		{
+			if( sCrntExpandHeight != sMaxHeight )
+			{
+				// Expand content box
+				sCrntExpandHeight += sDeltaHeight;
+				contentExpand.style.height = sCrntExpandHeight + "px";
+			}
+			else
+			{
+				// Animation finished. Set up border and quit.
+				contentExpand.style.border = "1px dashed black";
+				sIsAnimating = false;
+			}
+		}
+		else
+		{
+			// No entry found. End animation
+			sIsAnimating = false;
+		}
+		
+		// Contact Old List Entry
+		if( sPrevListIdx >= 0 )
+		{
+			var contentContract = document.getElementById( "div_list_content_" + sPrevListIdx );
+			if( contentContract )
+			{
+				if( sPrevContractHeight != sMinHeight )
+				{
+					sPrevContractHeight -= sDeltaHeight;
+					contentContract.style.height = sPrevContractHeight + "px";
+				}
+				else
+				{
+					contentContract.style.border = "0px dashed black";
+					sIsAnimating = false;
+				}
+			}
+			
+		}
+		
+		if( sIsAnimating )
+		{
+			// If animation has not finished, continue animation
+			setTimeout( animate_detail_expand, sTimeout );
+		}
+		else
+		{
+			// Animation has finished. Reset values
+			sPrevContractHeight = 150;
+			sCrntExpandHeight = 0;
+		}
+	}
+	
 	
 	/**
 	 * Handle List Item Clicked
