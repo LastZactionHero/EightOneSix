@@ -88,16 +88,21 @@
 		var contentExpand = document.getElementById( "div_list_content_" + sCrntListIdx );
 		if( contentExpand )
 		{
+			// Expand New Entry
 			if( sCrntExpandHeight != sMaxHeight )
 			{
+				// Apply border if at the start of the animation
+				if( sCrntExpandHeight == 0 )
+				{
+					contentExpand.style.border = "1px dashed black";
+				}
 				// Expand content box
 				sCrntExpandHeight += sDeltaHeight;
 				contentExpand.style.height = sCrntExpandHeight + "px";
 			}
 			else
 			{
-				// Animation finished. Set up border and quit.
-				contentExpand.style.border = "1px dashed black";
+				// Animation finished.
 				sIsAnimating = false;
 			}
 		}

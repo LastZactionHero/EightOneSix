@@ -72,7 +72,7 @@ function build_marker
 	(
 		{
 			map: inMap,
-			position: inLocation
+			position: inLocation			
 		}
 	);
 
